@@ -3,6 +3,6 @@
 #include <iostream>
 int main() {
   System system;
-  //std::cout << system.TotalProcesses() <<std::endl;
+  //std::cout << system.UpTime() <<std::endl;
   NCursesDisplay::Display(system);
 }
