@@ -3,6 +3,6 @@
 #include <iostream>
 int main() {
   System system;
-  //std::cout << system.UpTime() <<std::endl;
+  //std::cout << system.MemoryUtilization() <<std::endl;
   NCursesDisplay::Display(system);
 }
