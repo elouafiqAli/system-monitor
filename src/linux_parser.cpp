@@ -213,8 +213,6 @@ int LinuxParser::RunningProcesses() {
     }
 }
 
-// TODO: Read and return the command associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Command(int pid) { 
    string line; 
    std::ifstream filestream(kProcDirectory+to_string(pid)+kCmdlineFilename);
@@ -226,14 +224,11 @@ string LinuxParser::Command(int pid) {
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
 
-// TODO: Read and return the user ID associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
+
 string LinuxParser::Uid(int pid) { 
   return LineTokenizer("Uid:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0);
 }
 
-// TODO: Read and return the user associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid) { 
   return LineTokenizer(Uid(pid), kPasswordPath, ':').at(0);
 }

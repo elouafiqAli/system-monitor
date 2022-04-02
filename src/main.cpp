@@ -3,18 +3,20 @@
 #include "linux_parser.h"
 #include <iostream>
 #include <cassert>
-#include <unistd.h>
 #include <string>
 #include <vector>
 
-#define DEBUG true
+#define DEBUG false
 int main() {
   System system;
   if(DEBUG){
-    assert(LinuxParser::Uid(20) == "0" );
-    assert(LinuxParser::User(20)== "root");
-    std::cout<< LinuxParser::Command(20) <<std::endl;
-   
+    std::vector <int> pids = LinuxParser::Pids();
+    for (int pid : pids){
+      Process pro(pid);
+      std::cout<< std::to_string(pid)+" " +pro.User()<<std::endl;
+      std::cout<< "command : "+pro.Command()<<std::endl;
+    }
+ 
   } else{ 
       NCursesDisplay::Display(system);
   }
