@@ -4,19 +4,13 @@
 #include <string>
 #include <unistd.h>
 #include <iostream>
-// TODO: Return the aggregate CPU utilization
+
 using namespace std;
 
 
 float Processor::Utilization() { 
-    
-    
-    
-    
-    unsigned long int prev_total = total_, prev_idle= idle_;
 
-    //sleep(1);
-    //std::cout<<"lol\n";
+    unsigned long int prev_total = total_, prev_idle= idle_;
     
     total_ = LinuxParser::Jiffies(); 
     idle_ = LinuxParser::IdleJiffies();

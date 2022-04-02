@@ -11,7 +11,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 using std::stol;
-
+using std::to_string;
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
   string line;
@@ -68,7 +68,6 @@ vector<int> LinuxParser::Pids() {
   return pids;
 }
 
-// TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() {
   int MemTotal{1}, MemFree{0};
   string line, key, value;
@@ -109,9 +108,6 @@ long LinuxParser::UpTime() {
   return uptime; 
 }
 
-
-
-// TODO: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() { 
   
   vector<string> set = LinuxParser::CpuUtilization();
@@ -145,21 +141,21 @@ long LinuxParser::IdleJiffies() {
          +stol(set.at(LinuxParser::CPUStates::kIOwait_)));
  }
 
-// TODO: Read and return CPU utilization
-vector<string> LinuxParser::LineTokenizer(string keyword) { 
-  vector<string> Utilization;
+
+vector<string> LinuxParser::LineTokenizer(string keyword, string path, char space_) { 
+    vector<string> Utilization;
     string line, key, value;
+    std::ifstream filestream(path);
     
-    std::ifstream filestream(kProcDirectory+kStatFilename);
     if (filestream.is_open()) {
       while (std::getline(filestream, line)) {
         // goes line by line
         std::istringstream linestream(line);
-        std::getline(linestream, value,' ');
+        std::getline(linestream, value,space_);
         // checks if keyword at the head of the line
         if (value == keyword) {
           // loops over the line and skips the keyword
-          while (std::getline(linestream, value,' ')) {
+          while (std::getline(linestream, value,space_)) {
             Utilization.push_back(value);
           }
           //exits when it ends
@@ -173,10 +169,8 @@ vector<string> LinuxParser::LineTokenizer(string keyword) {
   }
 
 vector<string> LinuxParser::CpuUtilization() { 
-  return LinuxParser::LineTokenizer("cpu");
+  return LinuxParser::LineTokenizer("cpu", kProcDirectory+kStatFilename, ' ');
 }
-
-
 
 
 int LinuxParser::TotalProcesses() { 
@@ -220,7 +214,10 @@ string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Uid(int pid) { 
+  string uid = LineTokenizer("Uid:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0);
+  return uid;
+}
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function

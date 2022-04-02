@@ -7,10 +7,14 @@
 #include <string>
 #include <vector>
 
-#define DEBUG false
+#define DEBUG true
 int main() {
   System system;
-   if(DEBUG){
+  std::vector<int> pids = LinuxParser::Pids();
+  if(DEBUG){
+    for(auto pid : pids){
+      std::cout << pid << " - uuid :"<<LinuxParser::Uid(pid) << std::endl;
+    } 
     
   } else{ 
       NCursesDisplay::Display(system);

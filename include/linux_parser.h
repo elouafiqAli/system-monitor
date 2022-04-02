@@ -45,7 +45,7 @@ enum CPUStates {
 };
 
 std::vector<std::string> CpuUtilization();
-std::vector<std::string> LineTokenizer(std::string token);
+std::vector<std::string> LineTokenizer(std::string token, std::string path,char space_);
 
 long Jiffies();
 long ActiveJiffies();
