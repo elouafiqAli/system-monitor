@@ -10,12 +10,7 @@
 int main() {
   System system;
   if(DEBUG){
-    std::vector <int> pids = LinuxParser::Pids();
-    for (int pid : pids){
-      Process pro(pid);
-      std::cout<< std::to_string(pid)+" " +pro.User()<<std::endl;
-      std::cout<< "RAM : "+pro.Ram()<<std::endl;
-    }
+    std::cout << LinuxParser::UpTime(20) <<std::endl;
  
   } else{ 
       NCursesDisplay::Display(system);

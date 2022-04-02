@@ -129,7 +129,11 @@ long LinuxParser::Jiffies() {
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::ActiveJiffies(int pid) { 
+  vector<string> set = LinuxParser::LineTokenizer(
+    to_string(pid),kProcDirectory+to_string(pid)+kStatFilename, ' ');
+  
+ }
 
 
 long LinuxParser::ActiveJiffies() { 
@@ -221,12 +225,11 @@ string LinuxParser::Command(int pid) {
   return line;
  }
 
-// TODO: Read and return the memory used by a process
-// REMOVE: [[maybe_unused]] once you define the function
+
 string LinuxParser::Ram(int pid) { 
   string ram = LineTokenizer("VmSize:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0); 
-  long int Kb = stol(ram.substr(0,ram.length()-3));
-  float Mb = Kb*1.0/1024;
+  long int RAM_Kb = stol(ram.substr(0,ram.length()-3));
+  float Mb = RAM_Kb*1.0/1024;
   std::stringstream stream;
   stream << std::fixed << std::setprecision(2) << Mb;
   std::string RAM_Mb = stream.str();
@@ -243,5 +246,11 @@ string LinuxParser::User(int pid) {
 }
 
 // TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::UpTime(int pid) { 
+
+  vector<string> set = LinuxParser::LineTokenizer(to_string(pid),kProcDirectory+to_string(pid)+kStatFilename, ' ');
+  long uptime_cycles =  stol(set.at(ProcessStates::uptime));
+ 
+  return uptime_cycles; 
+  }
+

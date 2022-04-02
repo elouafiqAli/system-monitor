@@ -5,7 +5,7 @@
 #include <regex>
 #include <string>
 
-
+#include <unistd.h>
 
 
 namespace LinuxParser {
@@ -43,7 +43,10 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
-
+enum ProcessStates{
+  utime = 12,
+  uptime =20
+};
 std::vector<std::string> CpuUtilization();
 std::vector<std::string> LineTokenizer(std::string token, std::string path,char space_);
 
