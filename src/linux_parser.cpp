@@ -10,6 +10,7 @@ using std::stof;
 using std::string;
 using std::to_string;
 using std::vector;
+using std::stol;
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -108,38 +109,74 @@ long LinuxParser::UpTime() {
   return uptime; 
 }
 
+
+
 // TODO: Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { return 0; }
+long LinuxParser::Jiffies() { 
+  
+  vector<string> set = LinuxParser::CpuUtilization();
+  //std::cout<< set.at(LinuxParser::CPUStates::kGuestNice_);
+  set.erase(set.begin());
+  return (stol(set.at(LinuxParser::CPUStates::kUser_))
+         +stol(set.at(LinuxParser::CPUStates::kNice_))
+         +stol(set.at(LinuxParser::CPUStates::kSystem_))
+         +stol(set.at(LinuxParser::CPUStates::kIdle_))
+         +stol(set.at(LinuxParser::CPUStates::kIOwait_))
+         +stol(set.at(LinuxParser::CPUStates::kIRQ_))
+         +stol(set.at(LinuxParser::CPUStates::kSoftIRQ_))
+         +stol(set.at(LinuxParser::CPUStates::kSteal_))
+         +stol(set.at(LinuxParser::CPUStates::kGuest_))
+         +stol(set.at(LinuxParser::CPUStates::kGuestNice_)));
+  
+}
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
-// TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
 
-// TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
+long LinuxParser::ActiveJiffies() { 
+  return ( LinuxParser::Jiffies() - LinuxParser::IdleJiffies());
+ }
+
+long LinuxParser::IdleJiffies() { 
+  vector<string> set = LinuxParser::CpuUtilization();
+  return ( +stol(set.at(LinuxParser::CPUStates::kIdle_))
+         +stol(set.at(LinuxParser::CPUStates::kIOwait_)));
+ }
 
 // TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { 
-  vector<string> Utilisation;
+vector<string> LinuxParser::LineTokenizer(string keyword) { 
+  vector<string> Utilization;
     string line, key, value;
-    bool ToExitFLag = false ;
+    
     std::ifstream filestream(kProcDirectory+kStatFilename);
     if (filestream.is_open()) {
-      while (std::getline(filestream, line) && ToExitFLag == false) {
+      while (std::getline(filestream, line)) {
+        // goes line by line
         std::istringstream linestream(line);
-        while (std::getline(linestream, value,' ')) {
-          if (value != "cpu") {
-            Utilisation.push_back(value);
-          }else ToExitFLag = true;
+        std::getline(linestream, value,' ');
+        // checks if keyword at the head of the line
+        if (value == keyword) {
+          // loops over the line and skips the keyword
+          while (std::getline(linestream, value,' ')) {
+            Utilization.push_back(value);
+          }
+          //exits when it ends
+          return Utilization;
         }
+        // else it skips the line for the next line
+       
       }
     }
-  Utilisation.erase(Utilisation.begin());
-  return Utilisation;
+  
   }
+
+vector<string> LinuxParser::CpuUtilization() { 
+  return LinuxParser::LineTokenizer("cpu");
+}
+
+
 
 
 int LinuxParser::TotalProcesses() { 
