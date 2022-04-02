@@ -222,7 +222,10 @@ string LinuxParser::Command(int pid) {
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Ram(int pid) { 
+  return LineTokenizer("VmSize:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0); 
+  
+  }
 
 
 string LinuxParser::Uid(int pid) { 
