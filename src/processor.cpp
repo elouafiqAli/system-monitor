@@ -34,8 +34,11 @@ unsigned long int KernelJiffies::kTotal() const{
 }
 
 float Processor::Utilization() { 
-
-    sleep(1);
+    if(tic.kUser == 0){
+        tic = Processor::Toc();
+        return 0.0;
+    }
+    sleep(0.5);
     KernelJiffies prev_tic = tic;
     tic = Processor::Toc();
     
