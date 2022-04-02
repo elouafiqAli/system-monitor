@@ -11,10 +11,9 @@
 int main() {
   System system;
   if(DEBUG){
-    /*for(auto pid : pids){
-      std::cout << pid << " - uuid :"<<LinuxParser::Uid(pid) <<" - user : " <<LinuxParser::User(pid) << std::endl;
-    } */
+    assert(LinuxParser::Uid(20) == "0" );
     assert(LinuxParser::User(20)== "root");
+    std::cout<< LinuxParser::Command(20) <<std::endl;
    
   } else{ 
       NCursesDisplay::Display(system);
