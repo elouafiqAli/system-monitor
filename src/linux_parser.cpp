@@ -3,9 +3,10 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
+#include <stdio.h>
 #include "linux_parser.h"
-
+#include <iomanip>
+#include <sstream>
 using std::stof;
 using std::string;
 using std::to_string;
@@ -223,8 +224,13 @@ string LinuxParser::Command(int pid) {
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) { 
-  return LineTokenizer("VmSize:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0); 
-  
+  string ram = LineTokenizer("VmSize:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0); 
+  long int Kb = stol(ram.substr(0,ram.length()-3));
+  float Mb = Kb*1.0/1024;
+  std::stringstream stream;
+  stream << std::fixed << std::setprecision(2) << Mb;
+  std::string RAM_Mb = stream.str();
+  return RAM_Mb;
   }
 
 

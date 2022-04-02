@@ -22,8 +22,8 @@ float Process::CpuUtilization() { return 0.0; }
 
 string Process::Command() { return command_; }
 
-// TODO: Return this process's memory utilization
-string Process::Ram() { return string(); }
+// DONE: Return this process's memory utilization
+string Process::Ram() { return LinuxParser::Ram(pid_); }
 
 string Process::User() { return user_; }
 

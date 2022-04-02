@@ -14,7 +14,7 @@ int main() {
     for (int pid : pids){
       Process pro(pid);
       std::cout<< std::to_string(pid)+" " +pro.User()<<std::endl;
-      std::cout<< "RAM : "+LinuxParser::Ram(pid)<<std::endl;
+      std::cout<< "RAM : "+pro.Ram()<<std::endl;
     }
  
   } else{ 
