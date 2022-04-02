@@ -157,9 +157,18 @@ vector<string> LinuxParser::LineTokenizer(string keyword, string path, char spac
           // loops over the line and skips the keyword
           while (std::getline(linestream, value,space_)) {
             Utilization.push_back(value);
-          }
+         }
           //exits when it ends
           return Utilization;
+        }else{
+          while (std::getline(linestream, value,space_)) {
+            if(value == keyword){
+              std::getline(linestream, value,space_);
+              std::getline(linestream, value,space_);
+              Utilization.push_back(value);
+              return Utilization;
+            }
+         }
         }
         // else it skips the line for the next line
        
@@ -215,16 +224,13 @@ string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Uid(int pid) { 
-  string uid = LineTokenizer("Uid:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0);
-  return uid;
+  return LineTokenizer("Uid:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0);
 }
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid) { 
-  string uid = Uid(pid);
-  string user = LineTokenizer(uid, kProcDirectory+to_string(pid)+kStatusFilename, ':').at(1);
-  return user;
+  return LineTokenizer(Uid(pid), kPasswordPath, ':').at(0);
 }
 
 // TODO: Read and return the uptime of a process

@@ -10,12 +10,12 @@
 #define DEBUG true
 int main() {
   System system;
-  std::vector<int> pids = LinuxParser::Pids();
   if(DEBUG){
-    for(auto pid : pids){
+    /*for(auto pid : pids){
       std::cout << pid << " - uuid :"<<LinuxParser::Uid(pid) <<" - user : " <<LinuxParser::User(pid) << std::endl;
-    } 
-    
+    } */
+    assert(LinuxParser::User(20)== "root");
+   
   } else{ 
       NCursesDisplay::Display(system);
   }
