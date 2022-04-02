@@ -122,7 +122,24 @@ long LinuxParser::ActiveJiffies() { return 0; }
 long LinuxParser::IdleJiffies() { return 0; }
 
 // TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+vector<string> LinuxParser::CpuUtilization() { 
+  vector<string> Utilisation;
+    string line, key, value;
+    bool ToExitFLag = false ;
+    std::ifstream filestream(kProcDirectory+kStatFilename);
+    if (filestream.is_open()) {
+      while (std::getline(filestream, line) && ToExitFLag == false) {
+        std::istringstream linestream(line);
+        while (std::getline(linestream, value,' ')) {
+          if (value != "cpu") {
+            Utilisation.push_back(value);
+          }else ToExitFLag = true;
+        }
+      }
+    }
+  Utilisation.erase(Utilisation.begin());
+  return Utilisation;
+  }
 
 
 int LinuxParser::TotalProcesses() { 
