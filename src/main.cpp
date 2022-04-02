@@ -13,7 +13,7 @@ int main() {
   std::vector<int> pids = LinuxParser::Pids();
   if(DEBUG){
     for(auto pid : pids){
-      std::cout << pid << " - uuid :"<<LinuxParser::Uid(pid) << std::endl;
+      std::cout << pid << " - uuid :"<<LinuxParser::Uid(pid) <<" - user : " <<LinuxParser::User(pid) << std::endl;
     } 
     
   } else{ 
