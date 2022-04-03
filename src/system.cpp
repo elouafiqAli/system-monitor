@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 #include "process.h"
 #include "processor.h"
@@ -14,6 +15,8 @@ using std::set;
 using std::size_t;
 using std::string;
 using std::vector;
+using std::sort;
+using std::reverse;
 
 Processor& System::Cpu() { return cpu_; }
 
@@ -25,6 +28,9 @@ void System::RefreshProcesses(){
         Process p(pid);  
         processes.push_back(p);
     }
+    //std::cout <<processes.size();
+    sort(processes.begin(),processes.end());
+    reverse(processes.begin(),processes.end());
     processes_ = processes;
 }
 vector<Process>& System::Processes() { 

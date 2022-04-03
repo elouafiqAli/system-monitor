@@ -41,6 +41,7 @@ long int Process::UpTime() const { return LinuxParser::UpTime(pid_)/sysconf(_SC_
 // TODO: Overload the "less than" comparison operator for Process objects
 
 bool Process::operator<(Process const& a) const { 
-
-    return ( (Process::CpuUtilization() - a.CpuUtilization()) < EPSILON) ;
+    return (CpuUtilization() < a.CpuUtilization());
+    //return ( (Process::CpuUtilization() - a.CpuUtilization()) < EPSILON) ;
 }
+
