@@ -29,6 +29,7 @@ class Process {
     Tic total_tics{1};
     Tic start_time{0};
     
+ 
     void RefreshCpuUtilization();
     float cpu_utilization{0.0};
 };

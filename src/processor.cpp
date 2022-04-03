@@ -11,7 +11,9 @@ float Processor::Utilization() {
 
     unsigned long int jiffies = LinuxParser::Jiffies(); 
     unsigned long int active_jiffies = LinuxParser::ActiveJiffies();
-
-    return active_tics.diff(active_jiffies)/(1.*total_tics.diff(jiffies));
+    if(jiffies != total_tics.tic())
+        utilization = active_tics.diff(active_jiffies)/(1.*total_tics.diff(jiffies));
+    else 
+        return utilization;
 
 }

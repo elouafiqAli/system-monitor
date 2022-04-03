@@ -7,6 +7,7 @@ long int Tic::hz(){
 unsigned long int Tic::diff(unsigned long int tic){
         unsigned long int prev_tic = tic_;
         tic_ = tic;
+    
         return (tic-prev_tic);
     }
 

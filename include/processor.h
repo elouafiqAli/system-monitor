@@ -9,6 +9,7 @@ class Processor {
  private:
     Tic total_tics{0};
     Tic active_tics{0};
+    float utilization{0.0};
 };
 
 #endif
