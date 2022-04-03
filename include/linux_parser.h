@@ -43,9 +43,12 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
-enum ProcessStates{
-  utime = 12,
-  uptime =20
+enum ProcessStates{ //parsing /proc/{pid}/stat
+  utime = 12, //14
+  stime = 13, //15
+  cstime = 14,//16
+  cutime =15, //17
+  uptime =20 //22
 };
 std::vector<std::string> CpuUtilization();
 std::vector<std::string> LineTokenizer(std::string token, std::string path,char space_);

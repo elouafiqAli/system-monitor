@@ -133,6 +133,12 @@ long LinuxParser::ActiveJiffies(int pid) {
   vector<string> set = LinuxParser::LineTokenizer(
     to_string(pid),kProcDirectory+to_string(pid)+kStatFilename, ' ');
   
+  long active_jiffies = stol(set.at(ProcessStates::utime));
+  active_jiffies += stol(set.at(ProcessStates::stime));
+  active_jiffies += stol(set.at(ProcessStates::cstime));
+  active_jiffies += stol(set.at(ProcessStates::cutime));
+
+  return active_jiffies;
  }
 
 
