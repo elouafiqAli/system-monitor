@@ -121,14 +121,12 @@ long LinuxParser::Jiffies() {
          +stol(set.at(LinuxParser::CPUStates::kIOwait_))
          +stol(set.at(LinuxParser::CPUStates::kIRQ_))
          +stol(set.at(LinuxParser::CPUStates::kSoftIRQ_))
-         +stol(set.at(LinuxParser::CPUStates::kSteal_))
-         +stol(set.at(LinuxParser::CPUStates::kGuest_))
-         +stol(set.at(LinuxParser::CPUStates::kGuestNice_)));
+         +stol(set.at(LinuxParser::CPUStates::kSteal_)));
   
 }
 
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
+// DONE: Read and return the number of active jiffies for a PID
+
 long LinuxParser::ActiveJiffies(int pid) { 
   vector<string> set = LinuxParser::LineTokenizer(
     to_string(pid),kProcDirectory+to_string(pid)+kStatFilename, ' ');
@@ -251,7 +249,6 @@ string LinuxParser::User(int pid) {
   return LineTokenizer(Uid(pid), kPasswordPath, ':').at(0);
 }
 
-// TODO: Read and return the uptime of a process
 long LinuxParser::UpTime(int pid) { 
 
   vector<string> set = LinuxParser::LineTokenizer(to_string(pid),kProcDirectory+to_string(pid)+kStatFilename, ' ');
