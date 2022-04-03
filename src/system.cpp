@@ -24,11 +24,8 @@ Processor& System::Cpu() { return cpu_; }
 void System::RefreshProcesses(){
     std::vector <Process> processes = {};
     std::vector <int> pids = LinuxParser::Pids();
-    for(int pid : pids){
-        Process p(pid);  
-        processes.push_back(p);
-    }
-    //std::cout <<processes.size();
+    for(int pid : pids) processes.push_back(Process(pid));
+
     sort(processes.begin(),processes.end());
     reverse(processes.begin(),processes.end());
     processes_ = processes;

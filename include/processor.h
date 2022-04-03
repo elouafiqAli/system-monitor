@@ -1,15 +1,14 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
+#include "tic.h"
 class Processor {
  public:
   float Utilization();  
   
  private:
-    unsigned long int total_{1};
-    unsigned long int idle_{0};
-    float last_utilization{0.0};
-    
+    Tic total_tics{0};
+    Tic active_tics{0};
 };
 
 #endif

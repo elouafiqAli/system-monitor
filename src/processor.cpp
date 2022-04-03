@@ -7,20 +7,11 @@
 
 using namespace std;
 
-
 float Processor::Utilization() { 
 
-    unsigned long int prev_total = total_, prev_idle= idle_;
-    
-    total_ = LinuxParser::Jiffies(); 
-    idle_ = LinuxParser::IdleJiffies();
+    unsigned long int jiffies = LinuxParser::Jiffies(); 
+    unsigned long int active_jiffies = LinuxParser::ActiveJiffies();
 
-    if(total_ == prev_total)
-        return last_utilization;
-    
-    float d_total = 1.0*total_- prev_total;
-    float d_idle =  1.0*idle_ - prev_idle; 
-    
-    last_utilization = (d_total-d_idle)/d_total;
-    return last_utilization; 
+    return active_tics.diff(active_jiffies)/(1.*total_tics.diff(jiffies));
+
 }
