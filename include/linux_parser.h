@@ -6,7 +6,7 @@
 #include <string>
 
 #include <unistd.h>
-
+#define PROCESS_READING_ERROR -1
 
 namespace LinuxParser {
 // Paths
@@ -20,6 +20,13 @@ const std::string kMeminfoFilename{"/meminfo"};
 const std::string kVersionFilename{"/version"};
 const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
+
+// keywords
+const std::string kMemTotal{"MemTotal:"};
+const std::string kMemFree{"MemFree:"};
+const std::string kCPUword{"cpu"};
+const std::string kVMSize{"VmSize:"};
+const std::string kUID{"Uid:"};
 
 // System
 float MemoryUtilization();

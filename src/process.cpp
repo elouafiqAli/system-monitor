@@ -36,15 +36,21 @@ float Process::CpuUtilization(){
     return cpu_utilization;
 }
 
-string Process::Command() { return command_; }
+string Process::Command() { 
+    if(command_.length()> 50) command_ = command_.substr(0,50);
+    return command_; 
+    }
 
 // DONE: Return this process's memory utilization
-string Process::Ram() { return LinuxParser::Ram(pid_); }
+string Process::Ram() { 
+    string ram = LinuxParser::Ram(pid_); 
+    return ram.substr(0,ram.length()-6); 
+}
 
 string Process::User() { return user_; }
 
 // DONE: Return the age of this process (in seconds)
-long int Process::UpTime() const { return start_time.seconds(); }
+long int Process::UpTime() const { return (LinuxParser::UpTime()-start_time.seconds()); }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 

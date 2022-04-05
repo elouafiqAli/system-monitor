@@ -78,10 +78,10 @@ float LinuxParser::MemoryUtilization() {
     while(std::getline(filestream,line)){
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
-        if (key == "MemTotal:") {
+        if (key == kMemTotal) {
           MemTotal = std::stoi(value);
         }
-        if (key == "MemFree:"){
+        if (key == kMemFree){
           MemFree = std::stoi(value);
           return ((float)(MemTotal-MemFree))/MemTotal;
         }
@@ -94,16 +94,14 @@ float LinuxParser::MemoryUtilization() {
 } 
 
 long LinuxParser::UpTime() { 
-  long uptime{0}, idletime{0};
+  long uptime{0};
   string line, uptime_s, idletime_s;
-  long double uptime_t;
   std::ifstream stream(kProcDirectory + kUptimeFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
     linestream >> uptime_s >> idletime_s;
     uptime = std::stold(uptime_s);
-    idletime = std::stold(idletime_s);
   }
   
   return uptime; 
@@ -183,11 +181,11 @@ vector<string> LinuxParser::LineTokenizer(string keyword, string path, char spac
        
       }
     }
-  
+    return Utilization;
   }
 
 vector<string> LinuxParser::CpuUtilization() { 
-  return LinuxParser::LineTokenizer("cpu", kProcDirectory+kStatFilename, ' ');
+  return LinuxParser::LineTokenizer(kCPUword, kProcDirectory+kStatFilename, ' ');
 }
 
 
@@ -204,6 +202,7 @@ int LinuxParser::TotalProcesses() {
       }
     }
   }
+  return PROCESS_READING_ERROR;
 }
 
 
@@ -220,6 +219,7 @@ int LinuxParser::RunningProcesses() {
         }
       }
     }
+    return PROCESS_READING_ERROR;
 }
 
 string LinuxParser::Command(int pid) { 
@@ -231,18 +231,13 @@ string LinuxParser::Command(int pid) {
 
 
 string LinuxParser::Ram(int pid) { 
-  string ram = LineTokenizer("VmSize:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0); 
-  long int RAM_Kb = stol(ram.substr(0,ram.length()-3));
-  float Mb = RAM_Kb*1.0/1024;
-  std::stringstream stream;
-  stream << std::fixed << std::setprecision(2) << Mb;
-  std::string RAM_Mb = stream.str();
-  return RAM_Mb;
+  return LineTokenizer(kVMSize, kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0); 
+  
   }
 
 
 string LinuxParser::Uid(int pid) { 
-  return LineTokenizer("Uid:", kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0);
+  return LineTokenizer(kUID, kProcDirectory+to_string(pid)+kStatusFilename, '\t').at(0);
 }
 
 string LinuxParser::User(int pid) { 
