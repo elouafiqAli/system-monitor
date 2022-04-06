@@ -9,7 +9,8 @@ Implementing the `System`, `Process` , and `Processor` classes, as well as funct
 2. Build the project: `make build`
 
 3. Run the resulting executable: `./build/monitor`
-![Starting System Monitor](images/starting_monitor.png)
+
+![Starting System Monitor](images/monitor.gif)
 
 ## Udacity Linux Workspace
 [Udacity](https://www.udacity.com/) provides a browser-based Linux [Workspace](https://engineering.udacity.com/creating-a-gpu-enhanced-virtual-desktop-for-udacity-497bdd91a505) for students. 
@@ -29,4 +30,6 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 * `format` applies [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html) to style the source code
 * `debug` compiles the source code and generates an executable, including debugging symbols
 * `clean` deletes the `build/` directory, including all of the build artifacts
+
+![Starting System Monitor](images/starting_monitor.gif)
 
